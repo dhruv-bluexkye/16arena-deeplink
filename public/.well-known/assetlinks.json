@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "com.sixteenarena.app",
       "sha256_cert_fingerprints": [
-        "30:AE:36:C3:8A:46:A9:E4:75:94:2B:C2:BA:69:14:44:59:E9:0F:F4:47:59:1D:9F:BE:3A:FA:68:04:7E:A1:8E"
+        "30:AE:36:C3:8A:46:A9:E4:75:94:2B:C2:BA:69:14:44:59:E9:0F:F4:47:59:1D:9F:BE:3A:FA:68:04:7E:A1:8E",
+        "E9:EA:97:64:67:1A:5C:1F:29:68:A2:E6:3F:BA:3A:64:44:1F:49:FB:80:F4:FD:3D:73:F5:AF:EE:7D:37:25:12"
       ]
     }
   }
