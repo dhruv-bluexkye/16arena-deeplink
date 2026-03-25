@@ -5,15 +5,25 @@
       {
         "appID": "U828JSCDUK.com.sixteenarena.iosapp",
         "paths": [
-          "/apps/team/invite/*",
-          "/apps/team/invite/*/"
+          "/apps/*",
+          "/apps/*/*",
+          "/apps/*/*/*",
+          "/apps/*/*/*/*",
+          "/apps/*/*/*/*/*",
+          "/apps/*/*/*/*/*/*",
+          "/apps/*/*/*/*/*/*/*"
         ]
       },
       {
         "appID": "U828JSCDUK.com.sixteenarena.app",
         "paths": [
-          "/apps/team/invite/*",
-          "/apps/team/invite/*/"
+          "/apps/*",
+          "/apps/*/*",
+          "/apps/*/*/*",
+          "/apps/*/*/*/*",
+          "/apps/*/*/*/*/*",
+          "/apps/*/*/*/*/*/*",
+          "/apps/*/*/*/*/*/*/*"
         ]
       }
     ]
