@@ -3,17 +3,21 @@ import Image from "next/image";
 import StoreRedirectClient from "@/app/apps/_components/StoreRedirectClient";
 
 type ReferralInvitePageProps = {
-  params: { code: string };
+  params: Promise<{ code?: string }> | { code?: string };
 };
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
-}: ReferralInvitePageProps): Metadata {
-  const { code } = params;
+}: ReferralInvitePageProps): Promise<Metadata> {
+  const resolvedParams = await Promise.resolve(params);
+  const code = resolvedParams.code?.trim();
   const title = "You've got a 16Arena referral invite";
-  const description = `Join 16Arena with referral code ${code} and start earning rewards with your friends.`;
+  const description =
+    "Join 16Arena and start earning rewards with your friends.";
   const image = "https://app.16arena.com/banner.jpg";
-  const url = `https://app.16arena.com/apps/referral/invite/${code}`;
+  const url = code
+    ? `https://app.16arena.com/apps/referral/invite/${code}`
+    : "https://app.16arena.com/apps/referral/invite";
 
   return {
     title,

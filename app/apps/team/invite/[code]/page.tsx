@@ -3,17 +3,21 @@ import Image from "next/image";
 import StoreRedirectClient from "@/app/apps/_components/StoreRedirectClient";
 
 type InvitePageProps = {
-  params: { code: string };
+  params: Promise<{ code?: string }> | { code?: string };
 };
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
-}: InvitePageProps): Metadata {
-  const { code } = params;
+}: InvitePageProps): Promise<Metadata> {
+  const resolvedParams = await Promise.resolve(params);
+  const code = resolvedParams.code?.trim();
   const title = "Join your squad on 16Arena";
-  const description = `You're invited to join a team on 16Arena. Open this invite and enter with code ${code}.`;
+  const description =
+    "You're invited to join a team on 16Arena. Open this invite in the app to get started.";
   const image = "https://app.16arena.com/banner.jpg";
-  const url = `https://app.16arena.com/apps/team/invite/${code}`;
+  const url = code
+    ? `https://app.16arena.com/apps/team/invite/${code}`
+    : "https://app.16arena.com/apps/team/invite";
 
   return {
     title,
