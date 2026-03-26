@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import StoreRedirectClient from "@/app/apps/_components/StoreRedirectClient";
 
-type InvitePageProps = {
+type ReferralInvitePageProps = {
   params: { code: string };
 };
 
 export function generateMetadata({
   params,
-}: InvitePageProps): Metadata {
+}: ReferralInvitePageProps): Metadata {
   const { code } = params;
-  const title = "Join your squad on 16Arena";
-  const description = `You're invited to join a team on 16Arena. Open this invite and enter with code ${code}.`;
+  const title = "You've got a 16Arena referral invite";
+  const description = `Join 16Arena with referral code ${code} and start earning rewards with your friends.`;
   const image = "https://app.16arena.com/banner.jpg";
-  const url = `https://app.16arena.com/apps/team/invite/${code}`;
+  const url = `https://app.16arena.com/apps/referral/invite/${code}`;
 
   return {
     title,
@@ -35,7 +35,7 @@ export function generateMetadata({
   };
 }
 
-export default function InvitePage() {
+export default function ReferralInvitePage() {
   return (
     <main
       style={{
@@ -49,17 +49,17 @@ export default function InvitePage() {
       <div style={{ maxWidth: "560px", textAlign: "center" }}>
         <Image
           src="/banner.jpg"
-          alt="16Arena invite banner"
+          alt="16Arena referral invite banner"
           width={1200}
           height={630}
           style={{ width: "100%", height: "auto", borderRadius: "12px" }}
           priority
         />
         <h1 style={{ marginTop: "16px", fontSize: "1.5rem", fontWeight: 700 }}>
-          Join your squad on 16Arena
+          Join 16Arena with your referral code
         </h1>
         <p style={{ marginTop: "8px", opacity: 0.8 }}>
-          Open this invite in the app to start playing with your team.
+          Install the app and continue to claim your referral benefits.
         </p>
         <div style={{ marginTop: "12px" }}>
           <StoreRedirectClient fallbackMessage="Open this link on Android or iOS to install/open the app via stores." />
@@ -68,3 +68,4 @@ export default function InvitePage() {
     </main>
   );
 }
+
