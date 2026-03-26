@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Image from "next/image";
 import StoreRedirectClient from "@/app/apps/_components/StoreRedirectClient";
 
@@ -6,14 +7,39 @@ type ReferralInvitePageProps = {
   params: Promise<{ code?: string }> | { code?: string };
 };
 
+async function resolveReferralCode(
+  params: ReferralInvitePageProps["params"]
+): Promise<string | undefined> {
+  const resolvedParams = await Promise.resolve(params);
+  const fromParams = resolvedParams.code?.trim();
+  if (fromParams) return fromParams;
+
+  // Some social crawlers can lose dynamic params; fallback to path parsing.
+  const h = await headers();
+  const possiblePaths = [
+    h.get("next-url"),
+    h.get("x-invoke-path"),
+    h.get("x-matched-path"),
+    h.get("x-original-url"),
+  ];
+
+  for (const path of possiblePaths) {
+    if (!path) continue;
+    const match = path.match(/\/apps\/referral\/invite\/([^/?#]+)/i);
+    if (match?.[1]) return decodeURIComponent(match[1]);
+  }
+
+  return undefined;
+}
+
 export async function generateMetadata({
   params,
 }: ReferralInvitePageProps): Promise<Metadata> {
-  const resolvedParams = await Promise.resolve(params);
-  const code = resolvedParams.code?.trim();
+  const code = await resolveReferralCode(params);
   const title = "You've got a 16Arena referral invite";
-  const description =
-    "Join 16Arena and start earning rewards with your friends.";
+  const description = code
+    ? `Join 16Arena with referral code ${code} and start earning rewards with your friends.`
+    : "Join 16Arena and start earning rewards with your friends.";
   const image = "https://app.16arena.com/banner.jpg";
   const url = code
     ? `https://app.16arena.com/apps/referral/invite/${code}`
