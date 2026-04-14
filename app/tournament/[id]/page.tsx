@@ -17,8 +17,8 @@ export async function generateMetadata({
     : "You're invited to a tournament on 16Arena. Open in the app to join and compete.";
   const image = "https://app.16arena.com/banner.jpg";
   const url = tournamentId
-    ? `https://app.16arena.com/tournament/${tournamentId}`
-    : "https://app.16arena.com/tournament";
+    ? `https://16arena.com/tournament/${tournamentId}`
+    : "https://16arena.com/tournament";
 
   return {
     title,
