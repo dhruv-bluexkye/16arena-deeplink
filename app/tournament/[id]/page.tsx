@@ -6,18 +6,70 @@ type TournamentPageProps = {
   params: Promise<{ id?: string }> | { id?: string };
 };
 
+type TournamentApiResponse = {
+  success?: boolean;
+  data?: {
+    tournamentName?: string;
+    gameName?: string;
+    description?: string;
+    slug?: string;
+    coverImage?: string;
+    image?: string;
+    isOnline?: boolean;
+    teamType?: string;
+    entryFee?: number;
+    prizePool?: number;
+  };
+};
+
+async function fetchTournamentBySlug(slug: string) {
+  const endpoint = `https://api.16arena.com/api/v1/Tournament/by-slug/${encodeURIComponent(
+    slug
+  )}`;
+
+  try {
+    const res = await fetch(endpoint, { cache: "no-store" });
+    if (!res.ok) return null;
+    const payload = (await res.json()) as TournamentApiResponse;
+    if (!payload?.success || !payload.data) return null;
+    return payload.data;
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({
   params,
 }: TournamentPageProps): Promise<Metadata> {
   const resolvedParams = await Promise.resolve(params);
-  const tournamentId = resolvedParams.id?.trim();
-  const title = "Tournament on 16Arena";
-  const description = tournamentId
-    ? `You're invited to view tournament ${tournamentId} on 16Arena. Open in the app to join and compete.`
+  const tournamentSlug = resolvedParams.id?.trim();
+  const tournament = tournamentSlug
+    ? await fetchTournamentBySlug(tournamentSlug)
+    : null;
+
+  const tournamentName = tournament?.tournamentName?.trim();
+  const gameName = tournament?.gameName?.trim();
+  const title = tournamentName
+    ? gameName
+      ? `${tournamentName} • ${gameName} | 16Arena`
+      : `${tournamentName} | 16Arena`
+    : "Tournament on 16Arena";
+
+  const description = tournament?.description?.trim()
+    ? tournament.description.trim()
+    : tournamentName && gameName
+    ? `${tournamentName} is live on ${gameName}. Open in 16Arena to view details and join the competition.`
+    : tournamentSlug
+    ? `You're invited to view tournament ${tournamentSlug} on 16Arena. Open in the app to join and compete.`
     : "You're invited to a tournament on 16Arena. Open in the app to join and compete.";
-  const image = "https://app.16arena.com/banner.jpg";
-  const url = tournamentId
-    ? `https://16arena.com/tournament/${tournamentId}`
+
+  const image =
+    tournament?.coverImage?.trim() ||
+    tournament?.image?.trim() ||
+    "https://app.16arena.com/banner.jpg";
+
+  const url = tournamentSlug
+    ? `https://16arena.com/tournament/${tournamentSlug}`
     : "https://16arena.com/tournament";
 
   return {
