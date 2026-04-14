@@ -5,6 +5,8 @@
       {
         "appID": "U828JSCDUK.com.sixteenarena.iosapp",
         "paths": [
+          "/tournament/*",
+          "/tournament/*/",
           "/apps/*",
           "/apps/*/*",
           "/apps/*/*/*",
@@ -17,6 +19,8 @@
       {
         "appID": "U828JSCDUK.com.sixteenarena.app",
         "paths": [
+          "/tournament/*",
+          "/tournament/*/",
           "/apps/*",
           "/apps/*/*",
           "/apps/*/*/*",
